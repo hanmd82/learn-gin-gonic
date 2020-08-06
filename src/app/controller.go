@@ -5,8 +5,9 @@ import (
 	"net/http"
 )
 
-func main() {
+func registerRoutes() *gin.Engine {
 	r := gin.Default()
+
 	r.LoadHTMLGlob("templates/**/*.html")
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", nil)
@@ -23,5 +24,5 @@ func main() {
 
 	r.Static("/public", "./public")
 
-	r.Run(":3000")
+	return r
 }
