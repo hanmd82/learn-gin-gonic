@@ -33,6 +33,24 @@ func registerRoutes() *gin.Engine {
 			})
 	})
 
+	r.POST("/employees/:id/vacation/new", func(c *gin.Context) {
+		var timeOff TimeOff
+
+		err := c.BindJSON(&timeOff)
+		if err != nil {
+			c.String(http.StatusBadRequest, err.Error())
+			return
+		}
+
+		id := c.Param("id")
+
+		timesOff, ok := TimesOff[id]
+		if !ok {
+			TimesOff[id] = []TimeOff{}
+		}
+		TimesOff[id] = append(timesOff, timeOff)
+	})
+
 	admin := r.Group("/admin", gin.BasicAuth(gin.Accounts{
 		"admin": "admin",
 	}))
