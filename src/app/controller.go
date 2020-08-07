@@ -37,7 +37,10 @@ func registerRoutes() *gin.Engine {
 	}))
 
 	admin.GET("/", func (c *gin.Context){
-		c.HTML(http.StatusOK, "admin-overview.html", nil)
+		c.HTML(http.StatusOK, "admin-overview.html",
+			map[string]interface{} {
+				"Employees": employees,
+		})
 	})
 
 	r.Static("/public", "./public")
