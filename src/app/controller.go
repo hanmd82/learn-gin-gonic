@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
+	"time"
 )
 
 func registerRoutes() *gin.Engine {
@@ -60,6 +62,35 @@ func registerRoutes() *gin.Engine {
 			map[string]interface{}{
 				"Employee": employee,
 			})
+	})
+
+	admin.POST("/employees/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		if id == "add" {
+			pto, err := strconv.ParseFloat(c.PostForm("pto"), 32)
+			if err != nil {
+				c.String(http.StatusBadRequest, err.Error())
+				return
+			}
+
+			startDate, err := time.Parse("2006-01-02", c.PostForm("startDate"))
+			if err != nil {
+				c.String(http.StatusBadRequest, err.Error())
+				return
+			}
+
+			var emp Employee
+			emp.ID = 42
+			emp.FirstName = c.PostForm("firstName")
+			emp.LastName = c.PostForm("lastName")
+			emp.Position = c.PostForm("Position")
+			emp.Status = "Active"
+			emp.TotalPTO = float32(pto)
+			emp.StartDate = startDate
+			employees["42"] = emp
+
+			c.Redirect(http.StatusMovedPermanently, "/admin/employees/42")
+		}
 	})
 
 	r.Static("/public", "./public")
