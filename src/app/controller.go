@@ -48,6 +48,8 @@ func registerRoutes() *gin.Engine {
 			TimesOff[id] = []TimeOff{}
 		}
 		TimesOff[id] = append(timesOff, timeOff)
+
+		c.JSON(http.StatusCreated, &timeOff)
 	})
 
 	admin := r.Group("/admin", gin.BasicAuth(gin.Accounts{
