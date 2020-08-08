@@ -27,10 +27,9 @@ func registerRoutes() *gin.Engine {
 			return
 		}
 
-		c.HTML(http.StatusOK, "vacation-overview.html",
-			map[string]interface{}{
-				"TimesOff": timesOff,
-			})
+		c.HTML(http.StatusOK, "vacation-overview.html", gin.H{
+			"TimesOff": timesOff,
+		})
 	})
 
 	r.POST("/employees/:id/vacation/new", func(c *gin.Context) {
@@ -56,10 +55,9 @@ func registerRoutes() *gin.Engine {
 	}))
 
 	admin.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "admin-overview.html",
-			map[string]interface{}{
-				"Employees": employees,
-			})
+		c.HTML(http.StatusOK, "admin-overview.html", gin.H{
+			"Employees": employees,
+		})
 	})
 
 	admin.GET("/employees/:id", func(c *gin.Context) {
@@ -75,10 +73,9 @@ func registerRoutes() *gin.Engine {
 			return
 		}
 
-		c.HTML(http.StatusOK, "admin-employee-edit.html",
-			map[string]interface{}{
-				"Employee": employee,
-			})
+		c.HTML(http.StatusOK, "admin-employee-edit.html", gin.H{
+			"Employee": employee,
+		})
 	})
 
 	admin.POST("/employees/:id", func(c *gin.Context) {
